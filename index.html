@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+      integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="./assets/css/style.css" />
+    <title>Movie Dashboard</title>
+  </head>
+
+  <body>
+    <header>
+      <h1>Movie Dashboard</h1>
+    </header>
+
+    <div class="container-fluid">
+      <div class="row">
+        <!-- Column 1: Search Bar & Search History -->
+        <div class="col s12 m3 l2">
+          <h2>Search for a movie:</h2>
+          <div>
+            <input type="text" id="movieInput" placeholder="" aria-label="Movie">
+            <button class="btn button" type="button" id="searchButton">
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+          <div id="movie">
+            <ul id="movieList" class="collection"></ul>
+          </div>
+          <div id="clear">
+            <ul id="clearList" class="collection"></ul>
+          </div>
+        </div>
+        <!-- End of Column 1: Search Bar & Search History -->
+        <!-- Column 2: Movie Details & Recommendations -->
+        <div class="col s12 m9 l10">
+          <!-- Row 1: Movie Details -->
+          <div class="row">
+            <div id="currentMovie" class="card hide">
+              <div id="movieDetails" class="card-body"></div>
+            </div>
+          </div>
+          <!-- End of Row 1: Movie Details -->
+          <!-- Row 2: Recommendations -->
+          <div class="row">
+            <div id="movieRecommendations" class="card hide">
+              <div class="card-body">
+                <h4>Recommendations</h4>
+                <div id="recommendationsCards">
+                  <ul id="recommendationsCardsList"></ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End of Row 2: Recommendations -->
+        </div>
+        <!-- End of Column 2: Movie Details & Recommendations -->
+      </div>
+    </div>
+
+    <!-- Error Modal -->
+    <div id="errorModal" class="modal">
+      <div class="modal-content">
+        <h5>Error!</h5>
+        <p>Movie was not found.  Please try another search!</p>
+      </div>
+      <div class="modal-footer">
+        <a href="#!" id="exitButton" class="modal-close btn button">Close</a>
+      </div>
+    </div>
+    <!-- End of Error Modal -->
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="./assets/js/script.js"></script>
+  </body>
+</html>
