@@ -1,0 +1,119 @@
+/* --- Universal Styling ------------------------------ */
+
+h1 {
+  color: #fff;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 40px;
+  margin: 0;
+}
+h2 {
+  color: #000;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 18px;
+  margin: 10px 0;
+}
+h3 {
+  line-height: 50px;
+}
+.button {
+  background-color: #6c56ac;
+  border-color: #6c56ac;
+  color: #fff;
+}
+.button:hover {
+  background-color: #4c3c7a;
+  border-color: #4c3c7a;
+  color: #fff;
+}
+.hide {
+  display: none;
+}
+
+/* --- Header ----------------------------------------- */
+
+header {
+  background: linear-gradient(90deg, rgba(153,137,197,1) 0%, rgba(108,86,172,1) 35%, rgba(76,60,122,1) 100%);
+  padding: 6px 0;
+  text-align: center;
+}
+
+/* --- Search / Search History ------------------------ */
+
+#movieList .list-group-item, 
+#clearList .list-group-item {
+  cursor: pointer;
+}
+#movieList .list-group-item:hover, 
+#clearList .list-group-item:hover {
+  background-color: #4c3c7a;
+  border-color: #4c3c7a;
+  color: #fff;
+}
+#movieList .active {
+  background-color: #6c56ac;
+  border-color: #6c56ac;
+}
+#clearList {
+  margin: 20px 0;
+}
+
+/* --- Current Movie Details -------------------------- */
+
+#currentMovie {
+  margin: 10px auto;
+  padding: 0 15px;
+  width: calc(100% - 30px);
+}
+#currentMovie img {
+  float: right;
+  margin: 0 0 0 10px;
+  width: 200px;
+}
+
+/* --- Recommendations -------------------------------- */
+
+#movieRecommendations {
+  margin: 10px auto;
+  padding: 0 15px;
+  width: calc(100% - 30px);
+}
+#recommendationsCardsList {
+  display: flex;
+  flex-direction: row;
+  list-style-type: none;
+  padding: 0;
+}
+.recommendationsCardItem {
+  background-color: #6c56ac;
+  border-color: #6c56ac;
+  box-sizing: border-box;
+  color: #fff;
+  display: inline-block;
+  margin: 0 20px 0 0;
+  padding: 12px;
+  text-align: center;
+  width: calc((100% - 80px) / 5);
+}
+.recommendationsCardItem:last-child {
+  margin: 0;
+}
+.recommendationsCardItem:hover {
+  background-color: #4c3c7a;
+  border-color: #4c3c7a;
+}
+.recommendationsCardItem img {
+  width: 100%;
+}
+
+/* --- Media Queries ---------------------------------- */
+
+@media screen and (max-width: 1199px) {
+  h4 {
+    font-size: 20px;
+  }
+}
+@media screen and (max-width: 1023px) {
+  h4 {
+    font-size: 30px;
+  }
+}
