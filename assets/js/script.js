@@ -187,6 +187,7 @@ function getMovie(movieName) {
       movieDetails.innerHTML += "<span class=\"details\">" + response.Genre + " &bull; " + response.Year + " &bull; " + response.Runtime + " &bull; " + response.Rated + "</span>";
       movieDetails.innerHTML += "<div class=\"about\">" + response.Plot + "</div>";
       movieDetails.innerHTML += "<div class=\"cast\">" + response.Actors + "</div>";
+      movieDetails.innerHTML += "<div class=\"director\">" + response.Director + "</div>";
       movieDetails.innerHTML += "<div class=\"writer\">" + response.Writer + "</div>";
 
       getRecommendations(movieName);
