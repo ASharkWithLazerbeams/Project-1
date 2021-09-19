@@ -95,18 +95,20 @@ header {
 #currentMovie img {
   float: right;
   margin: 0 0 0 20px;
-  width: 180px;
+  width: 210px;
 }
 .details {
   color: #666;
 }
 .about,
 .cast,
+.director,
 .writer {
   padding: 10px 0;
 }
 .about:before,
 .cast:before,
+.director:before,
 .writer:before {
   display: block;
   font-size: 15px;
@@ -117,6 +119,9 @@ header {
 }
 .cast:before {
   content: "Cast";
+}
+.director:before {
+  content: "Director";
 }
 .writer:before {
   content: "Writer";
