@@ -1,5 +1,6 @@
 // Variables
 var searchHistory = JSON.parse(localStorage.getItem("movieSearchHistory")) || [];
+var recommendationsCardsList = document.getElementById("recommendationsCardsList");
 
 function search() {
   var movieInput = document.getElementById("movieInput");
@@ -26,12 +27,12 @@ function showHistory() {
 
     // Display the movie name
     listItem.textContent = searchHistory[i];
-    console.log(searchHistory)
+
     // Set the movie name as a data attribute
     listItem.setAttribute("data-movie", searchHistory[i]);
 
     // Add class for styling
-    listItem.classList.add("list-group-item");
+    listItem.classList.add("collection-item");
 
     // If the movie is the current search, add the "active" class
     if(i == searchHistory.length - 1) {
@@ -59,7 +60,7 @@ function clearHistory() {
     var clearItems = document.createElement("li");
 
     clearItems.textContent = "Clear History";
-    clearItems.classList.add("list-group-item");
+    clearItems.classList.add("collection-item");
   
     clearItems.addEventListener("click", function() {
       // Clear both the movie and clear lists
@@ -81,8 +82,7 @@ function closeError() {
 
 function showError() {
   document.getElementById("errorModal").style.display = "block";
-  document.getElementById("exitButton1").addEventListener("click", closeError);
-  document.getElementById("exitButton2").addEventListener("click", closeError);
+  document.getElementById("exitButton").addEventListener("click", closeError);
 }
 
 function processMovieName(movieName) {
@@ -95,36 +95,28 @@ function processMovieName(movieName) {
 function getRecommendations(movieName) {
   var apiKey = "423810-MovieDas-87VVNNZX";
   var queryURL = "https://tastedive.com/api/similar?q=" + movieName + "&k=" + apiKey;
-  var recommendationsCardsList = document.getElementById("recommendationsCardsList");
 
   $.ajax({
     url: queryURL,
     dataType: "jsonp"
-  }).then(function(response) {
-    document.getElementById("movieRecommendations").classList.remove("hide");
+  }).done(function(response) {
 
-    // Clear the list before populating it
-    recommendationsCardsList.innerHTML = "";
+    if(response.Similar.Results.length > 0) {
+      // Show the Movie Recommendations container
+      document.getElementById("movieRecommendations").classList.remove("hide");
 
-    for(var i = 0; i < 5; i++) {
-      var listItem = document.createElement("li");
-      var movieTitle = response.Similar.Results[i].Name;
+      // Clear the list before populating it
+      recommendationsCardsList.innerHTML = "";
 
-      // Set the movie name as a data attribute
-      listItem.setAttribute("data-movie", movieTitle);
-
-      listItem.classList.add("recommendationsCardItem");
-      listItem.classList.add("card");
-      listItem.innerHTML = "<div id=\"recommendedMovie-" + i + "\"></div>";
-      listItem.innerHTML += movieTitle;
-      recommendationsCardsList.append(listItem);
-
-      getRecommendationsPhoto(response.Similar.Results[i].Name, i);
+      for(var i = 0; i < 5; i++) {
+        getRecommendationsData(response.Similar.Results[i].Name);
+      }
     }
+
   });
 }
 
-function getRecommendationsPhoto(movieName, index) {
+function getRecommendationsData(movieName) {
   var apiKey = "19367c01";
   var queryURL = "https://www.omdbapi.com/?t=" + movieName + "&apikey=" + apiKey;
 
@@ -132,14 +124,30 @@ function getRecommendationsPhoto(movieName, index) {
     url: queryURL,
     dataType: "json",
   }).done(function(response) {
-    if(response.Error == undefined) {
-      // Generate photo for recommended movie
-      var photo = response.Poster;
 
-      if(photo != "N/A") {
-        document.getElementById("recommendedMovie-" + index).innerHTML = "<img src=\"" + photo + "\">";
-      }
+    if(response.Error != undefined || (response.Error == undefined && response.Poster == "N/A")) {
+      // Skip this movie recommendation since no data for it was found
     }
+    else {
+      var listItem = document.createElement("li");
+
+      // Set the movie name as a data attribute
+      listItem.setAttribute("data-movie", movieName);
+
+      listItem.classList.add("recommendationsCardItem");
+      listItem.classList.add("card");
+      listItem.innerHTML = "<img src=\"" + response.Poster + "\">";
+      listItem.innerHTML += "<div>" + movieName + "</div>";
+
+      // Get the movie data if the item is clicked
+      listItem.addEventListener("click", function() {
+        var movie = (this).getAttribute("data-movie");
+        getMovie(movie);
+      });
+
+      recommendationsCardsList.append(listItem);
+    }
+
   });
 }
 
@@ -151,9 +159,8 @@ function getMovie(movieName) {
     url: queryURL,
     dataType: "json",
   }).done(function(response) {
-    if(response.Error == undefined) {
-      var movieDetails = document.getElementById("movieDetails");
 
+    if(response.Error == undefined) {
       // Check to see search history already includes the current movie and delete it from the searchHistory array if so
       if(searchHistory.includes(processMovieName(movieName))) {
         var index = searchHistory.indexOf(processMovieName(movieName));
@@ -165,16 +172,22 @@ function getMovie(movieName) {
       localStorage.setItem("movieSearchHistory", JSON.stringify(searchHistory));
 
       // Generate movie details
+      var movieDetails = document.getElementById("movieDetails");
+      var poster = response.Poster;
+
       document.getElementById("currentMovie").classList.remove("hide");
-      movieDetails.innerHTML = "<img src=\"" + response.Poster + "\">";
-      movieDetails.innerHTML += "<h2>" + response.Title + "</h2>";
-      movieDetails.innerHTML += "<p>" + response.Genre + "</p>";
-      movieDetails.innerHTML += "<p>" + response.Year + "</p>";
-      movieDetails.innerHTML += "<p>" + response.Runtime + "</p>"; 
-      movieDetails.innerHTML += "<p>Rated: " + response.Rated + "</p>"; 
-      movieDetails.innerHTML += "<p>About: " + response.Plot + "</p>";
-      movieDetails.innerHTML += "<p>Cast: " + response.Actors + "</p>";
-      movieDetails.innerHTML += "<p>Writers: " + response.Writer + "</p>";
+
+      movieDetails.innerHTML = "";
+
+      // Check to see if poster exists
+      if(poster != "N/A") {
+        movieDetails.innerHTML += "<img src=\"" + poster + "\">";
+      }
+      movieDetails.innerHTML += "<h3>" + response.Title + "</h3>";
+      movieDetails.innerHTML += "<span class=\"details\">" + response.Genre + " &bull; " + response.Year + " &bull; " + response.Runtime + " &bull; " + response.Rated + "</span>";
+      movieDetails.innerHTML += "<div class=\"about\">" + response.Plot + "</div>";
+      movieDetails.innerHTML += "<div class=\"cast\">" + response.Actors + "</div>";
+      movieDetails.innerHTML += "<div class=\"writer\">" + response.Writer + "</div>";
 
       getRecommendations(movieName);
 
@@ -183,6 +196,7 @@ function getMovie(movieName) {
     else {
       showError();
     }
+
   });
 }
 
