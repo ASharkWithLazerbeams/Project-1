@@ -13,20 +13,36 @@ h2 {
   margin: 10px 0;
 }
 h3 {
+  color: #000;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 26px;
+  font-weight: bold;
   line-height: 50px;
+  margin: 0;
+}
+h4 {
+  color: #000;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 26px;
+  margin: 0;
 }
 .button {
   background-color: #6c56ac;
   border-color: #6c56ac;
   color: #fff;
 }
-.button:hover {
+.button:hover,
+.button:focus {
   background-color: #4c3c7a;
   border-color: #4c3c7a;
   color: #fff;
 }
 .hide {
   display: none;
+}
+.card-body {
+  flex: 1 1 auto;
+  padding: 20px;
 }
 
 /* --- Header ----------------------------------------- */
@@ -39,12 +55,24 @@ header {
 
 /* --- Search / Search History ------------------------ */
 
-#movieList .list-group-item, 
-#clearList .list-group-item {
+#movieInput {
+  width: calc(100% - 55px);
+}
+#movieInput:focus {
+  border-bottom: 1px solid #6c56ac;
+  box-shadow: 0 1px 0 0 #6c56ac;
+}
+#searchButton {
+  position: relative;
+  top: 2px;
+  width: 51px;
+}
+#movieList .collection-item, 
+#clearList .collection-item {
   cursor: pointer;
 }
-#movieList .list-group-item:hover, 
-#clearList .list-group-item:hover {
+#movieList .collection-item:hover, 
+#clearList .collection-item:hover {
   background-color: #4c3c7a;
   border-color: #4c3c7a;
   color: #fff;
@@ -66,8 +94,37 @@ header {
 }
 #currentMovie img {
   float: right;
-  margin: 0 0 0 10px;
-  width: 200px;
+  margin: 0 0 0 20px;
+  width: 210px;
+}
+.details {
+  color: #666;
+}
+.about,
+.cast,
+.director,
+.writer {
+  padding: 10px 0;
+}
+.about:before,
+.cast:before,
+.director:before,
+.writer:before {
+  display: block;
+  font-size: 15px;
+  font-weight: bold;
+}
+.about:before {
+  content: "About";
+}
+.cast:before {
+  content: "Cast";
+}
+.director:before {
+  content: "Director";
+}
+.writer:before {
+  content: "Writer";
 }
 
 /* --- Recommendations -------------------------------- */
@@ -88,6 +145,7 @@ header {
   border-color: #6c56ac;
   box-sizing: border-box;
   color: #fff;
+  cursor: pointer;
   display: inline-block;
   margin: 0 20px 0 0;
   padding: 12px;
@@ -102,18 +160,28 @@ header {
   border-color: #4c3c7a;
 }
 .recommendationsCardItem img {
-  width: 100%;
+  height: 270px;
+  width: 180px;
+}
+
+/* --- Error Modal ------------------------------------ */
+
+#errorModal {
+  top: 30px;
 }
 
 /* --- Media Queries ---------------------------------- */
 
-@media screen and (max-width: 1199px) {
-  h4 {
-    font-size: 20px;
-  }
-}
 @media screen and (max-width: 1023px) {
-  h4 {
-    font-size: 30px;
+  #recommendationsCardsList {
+    flex-direction: column;
+  }
+  .recommendationsCardItem {
+    margin: 0 0 20px 0;
+    width: 100%;
+  }
+  .recommendationsCardItem img {
+    height: 100%;
+    width: 100%;
   }
 }
